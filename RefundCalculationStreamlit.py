@@ -29,7 +29,7 @@ if English == True:
         English_Refund_btn = st.button('返金額算出', key='English')
         if English_Refund_btn:
             EnglishRefund = English_Lesson_Fees - (10000 + English_Used_Points * 10)
-            st.text(f'{StudentName}様への返金額は{EnglishRefund}円です')
+            st.text(f'{StudentName}様への返金額は{EnglishRefund:.0f}円です')
 
 #ITを受講する生徒の返金額算出
 if IT == True:
@@ -55,7 +55,7 @@ if IT == True:
                     BeforeStartClass_Refund = (IT_Lesson_Fees * 0.7) + (English_Lesson_Fees - English_Used_Points * 10)
                 else:
                     BeforeStartClass_Refund = (IT_Lesson_Fees * 0.6) + (English_Lesson_Fees - English_Used_Points * 10)
-            st.text(f'{StudentName}様への返金額は{BeforeStartClass_Refund}円です')
+            st.text(f'{StudentName}様への返金額は{BeforeStartClass_Refund:.0f}円です')
     #受講後
     else:
         ClassOrPersonal = st.radio("IT受講形式はクラスorパーソナル？",('クラス', 'パーソナル'), horizontal=True)
@@ -91,26 +91,41 @@ if IT == True:
                         Personal_Refund = (IT_Lesson_Fees - Personal_Lessons_Taken * Fee_per_lesson ) * 1 / 10 + (English_Lesson_Fees - English_Used_Points * 10)
                     if datetime.timedelta(days = 112) < CXL_Date - IT_Course_Start_Date:
                         Personal_Refund = 0
-                st.text(f'{StudentName}様への返金額は{Personal_Refund}円です')
+                st.text(f'{StudentName}様への返金額は{Personal_Refund:.0f}円です')
         #クラス生徒への返金額算出
         else:
-            ClassNotTaken = st.radio("未受講のコースを選択してください",('すべて受講済み', 'Dev(S)~(A)', 'Dev(A)~(E)', 'Dev(E)のみ', 'Des(S)~Des(A)', 'Des(A)のみ'), horizontal=True)
+            ClassNotTaken = st.radio("未受講のコースを選択してください",('すべて受講済み', 'Dev(S)~(E)', 'Dev(A)~(E)', 'Dev(E)のみ', 'Des(S)~Des(A)', 'Des(A)のみ'), horizontal=True)
             Group_Refund_btn = st.button('返金額算出', key='Group')
             if Group_Refund_btn:
                 #未受講のクラスから返金額を算出
-                if ClassNotTaken == 'すべて受講済み':
-                    Group_Refund = English_Lesson_Fees - English_Used_Points * 10
-                if ClassNotTaken == 'Dev(S)~(E)':
-                    Group_Refund = (DevS_Fee + DevA_Fee + DevE_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
-                if ClassNotTaken == 'Dev(A)~(E)':
-                    Group_Refund = (DevA_Fee + DevE_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
-                if ClassNotTaken == 'Dev(E)':
-                    Group_Refund = DevE_Fee * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
-                if ClassNotTaken == 'Des(S)~(A)':
-                    Group_Refund = (DesS_Fee + DesA_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
-                if ClassNotTaken == 'Des(A)':
-                    Group_Refund = DesA_Fee * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
-                st.text(f'{StudentName}様への返金額は{Group_Refund}円です')
-
-    
-
+                #ITのみを受講する生徒の返金額算出
+                if English == False:
+                    match ClassNotTaken:
+                        case 'すべて受講済み':
+                            Group_Refund = 0
+                        case 'Dev(S)~(E)':
+                            Group_Refund = (DevS_Fee + DevA_Fee + DevE_Fee) * 5 / 10
+                        case 'Dev(A)~(E)':
+                            Group_Refund = (DevA_Fee + DevE_Fee) * 5 / 10 
+                        case 'Dev(E)のみ':
+                            Group_Refund = DevE_Fee * 5 / 10 
+                        case 'Des(S)~Des(A)':
+                            Group_Refund = (DesS_Fee + DesA_Fee) * 5 / 10 
+                        case 'Des(A)のみ':
+                            Group_Refund = DesA_Fee * 5 / 10 
+                #英語とITを受講する生徒の返金額算出
+                else:
+                    match ClassNotTaken:
+                        case 'すべて受講済み':
+                            Group_Refund = English_Lesson_Fees - English_Used_Points * 10
+                        case 'Dev(S)~(E)':
+                            Group_Refund = (DevS_Fee + DevA_Fee + DevE_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
+                        case 'Dev(A)~(E)':
+                            Group_Refund = (DevA_Fee + DevE_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
+                        case 'Dev(E)のみ':
+                            Group_Refund = DevE_Fee * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
+                        case 'Des(S)~Des(A)':
+                            Group_Refund = (DesS_Fee + DesA_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
+                        case 'Des(A)のみ':
+                            Group_Refund = DesA_Fee * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
+                st.text(f'{StudentName}様への返金額は{Group_Refund:.0f}円です')
