@@ -100,32 +100,30 @@ if IT == True:
                 #未受講のクラスから返金額を算出
                 #ITのみを受講する生徒の返金額算出
                 if English == False:
-                    match ClassNotTaken:
-                        case 'すべて受講済み':
-                            Group_Refund = 0
-                        case 'Dev(S)~(E)':
-                            Group_Refund = (DevS_Fee + DevA_Fee + DevE_Fee) * 5 / 10
-                        case 'Dev(A)~(E)':
-                            Group_Refund = (DevA_Fee + DevE_Fee) * 5 / 10 
-                        case 'Dev(E)のみ':
-                            Group_Refund = DevE_Fee * 5 / 10 
-                        case 'Des(S)~Des(A)':
-                            Group_Refund = (DesS_Fee + DesA_Fee) * 5 / 10 
-                        case 'Des(A)のみ':
-                            Group_Refund = DesA_Fee * 5 / 10 
+                    if ClassNotTaken == 'すべて受講済み':
+                        Group_Refund = 0
+                    elif ClassNotTaken == 'Dev(S)~(E)': 
+                        Group_Refund = (DevS_Fee + DevA_Fee + DevE_Fee) * 5 / 10
+                    elif ClassNotTaken == 'Dev(A)~(E)':
+                        Group_Refund = (DevA_Fee + DevE_Fee) * 5 / 10 
+                    elif ClassNotTaken == 'Dev(E)のみ':
+                        Group_Refund = DevE_Fee * 5 / 10 
+                    elif ClassNotTaken == 'Des(S)~Des(A)':
+                        Group_Refund = (DesS_Fee + DesA_Fee) * 5 / 10 
+                    elif ClassNotTaken == 'Des(A)のみ':
+                        Group_Refund = DesA_Fee * 5 / 10 
                 #英語とITを受講する生徒の返金額算出
                 else:
-                    match ClassNotTaken:
-                        case 'すべて受講済み':
-                            Group_Refund = English_Lesson_Fees - English_Used_Points * 10
-                        case 'Dev(S)~(E)':
-                            Group_Refund = (DevS_Fee + DevA_Fee + DevE_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
-                        case 'Dev(A)~(E)':
-                            Group_Refund = (DevA_Fee + DevE_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
-                        case 'Dev(E)のみ':
-                            Group_Refund = DevE_Fee * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
-                        case 'Des(S)~Des(A)':
-                            Group_Refund = (DesS_Fee + DesA_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
-                        case 'Des(A)のみ':
-                            Group_Refund = DesA_Fee * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
+                    if ClassNotTaken == 'すべて受講済み':
+                        Group_Refund = 0
+                    elif ClassNotTaken == 'Dev(S)~(E)': 
+                        Group_Refund = (DevS_Fee + DevA_Fee + DevE_Fee) * 5 / 10 + English_Lesson_Fees - English_Used_Points * 10
+                    elif ClassNotTaken == 'Dev(A)~(E)':
+                        Group_Refund = (DevA_Fee + DevE_Fee) * 5 / 10 
+                    elif ClassNotTaken == 'Dev(E)のみ':
+                        Group_Refund = DevE_Fee * 5 / 10 
+                    elif ClassNotTaken == 'Des(S)~Des(A)':
+                        Group_Refund = (DesS_Fee + DesA_Fee) * 5 / 10 
+                    elif ClassNotTaken == 'Des(A)のみ':
+                        Group_Refund = DesA_Fee * 5 / 10 
                 st.text(f'{StudentName}様への返金額は{Group_Refund:.0f}円です')
